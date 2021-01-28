@@ -22581,12 +22581,12 @@ Stepper
 winzigen Steppern
 für Signale oder
 Weichen</text>
-<text x="295.91" y="29.21" size="1.778" layer="150">Der TDS2100 ist viel leiser
+<text x="295.91" y="29.21" size="1.778" layer="150">Der TMC2100 ist viel leiser
 
 Achtung: 
 - Strom vor Anschluss des Steppers einstellen
 - Einbaurichtung beachten.
-  Beim TDS2100 ist das Poti oben</text>
+  Beim TMC2100 ist das Poti oben</text>
 <wire x1="364.8075" y1="218.44" x2="365.76" y2="218.44" width="0.1524" layer="150"/>
 <wire x1="365.76" y1="218.44" x2="366.7125" y2="218.44" width="0.1524" layer="150"/>
 <wire x1="366.7125" y1="218.44" x2="366.7125" y2="223.52" width="0.1524" layer="150"/>
