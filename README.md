@@ -1,9 +1,9 @@
 # MobaLedLib
 ## Turntable Control
 
-**This repository contains the software and the hardware files for a Arduino based turntable control **
+** This repository contains the software and the hardware files for a Arduino based turntable control **
 
-*Features:*
+* Features: *
 - Uses a stepper motor for exact positioning
 - Manual control using a poti
 - Automatic control per rotation switch
@@ -13,7 +13,7 @@
 - Polarisation relais
 - ...
 
-**Attention: ** This is the first version. Not all features are finished yet
+** Attention: ** This is the first version. Not all features are finished yet
 
 
 Details could be found here:
