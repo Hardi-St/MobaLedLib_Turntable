@@ -22455,9 +22455,9 @@ https://de.aliexpress.com/item/4000549890103.html
 </text>
 <wire x1="288.29" y1="147.32" x2="314.96" y2="147.32" width="0.1524" layer="95" style="shortdash"/>
 <text x="294.64" y="243.84" size="1.778" layer="150">Bei Drehscheiben mit nur 3 oder 4 Schleifringen kann das Licht und die 
-Warnlampe über eine Leitung mit der Schinenspannung betrieben werden.
-Zur Trennung werden die Optokopler verwendet. Dabei nutzt die Schaltung
-die Tatsache, dass die Schinenspannung Wechselspannung ist.</text>
+Warnlampe über eine Leitung mit der Schienenspannung betrieben werden.
+Zur Trennung werden die Optokoppler verwendet. Dabei nutzt die Schaltung
+die Tatsache, dass die Schienenspannung Wechselspannung ist.</text>
 <wire x1="364.49" y1="213.36" x2="367.03" y2="213.36" width="0.1524" layer="150"/>
 <wire x1="367.03" y1="213.36" x2="365.76" y2="210.82" width="0.1524" layer="150"/>
 <wire x1="365.76" y1="210.82" x2="364.49" y2="213.36" width="0.1524" layer="150"/>
@@ -22510,7 +22510,7 @@ moving</text>
 14-20V</text>
 <text x="269.24" y="198.12" size="1.778" layer="150" rot="R180">Optional kann auch ein WS2812 LED
 Bus zur Bühne verwendet werden.
-Dann entfallen die Optopopler und
+Dann entfallen die Optokoppler und
 DIR_LIGHT wird verbunden.</text>
 <text x="377.19" y="179.07" size="1.778" layer="150" rot="R90">Diese Schaltung wird auf
 der Bühne benötigt.</text>
@@ -22548,7 +22548,7 @@ Tastern</text>
 <text x="5.08" y="213.36" size="1.524" layer="97" align="top-left">Jumper verbinden
 wenn von DCC
 versorgt.</text>
-<text x="144.78" y="124.46" size="1.524" layer="97" align="top-left">Anzeige: Scheibe 
+<text x="147.32" y="124.46" size="1.524" layer="97" align="top-left">Anzeige: Scheibe 
 dreht sich
 </text>
 <text x="165.1" y="71.12" size="1.524" layer="97" align="top-left">Software für das
@@ -22578,7 +22578,7 @@ CON3 benutzt werden.
 Stepper
 28BYJ-48</text>
 <text x="359.41" y="46.99" size="1.778" layer="150">J10 für Tests mit
-minzigen Steppern
+winzigen Steppern
 für Signale oder
 Weichen</text>
 <text x="295.91" y="29.21" size="1.778" layer="150">Der TDS2100 ist viel leiser
