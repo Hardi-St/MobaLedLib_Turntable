@@ -17,6 +17,6 @@
 
 
 Details could be found here:
-https://stummiforum.de/viewtopic.php?t=188668&sd=a&start=0
+https://stummiforum.de/viewtopic.php?t=188668
 
 Contact: MobaLedLib@gmx.de
