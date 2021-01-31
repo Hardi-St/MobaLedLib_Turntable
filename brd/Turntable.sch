@@ -22306,7 +22306,7 @@ by exp-lbrs.ulp</description>
 <part name="P+4" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
 <part name="JP1" library="adafruit" deviceset="PINHD-1X3" device="CB" value="MS1"/>
 <part name="JP4" library="SparkFun-Connectors" deviceset="M02" device="PTH" value="EnabMod"/>
-<part name="R2" library="rcl" deviceset="R-EU_" device="0204/7" value="10K"/>
+<part name="R2" library="rcl" deviceset="R-EU_" device="0204/7" value="Opt"/>
 <part name="P+3" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
 <part name="P+6" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
 <part name="GND8" library="supply1" deviceset="GND" device=""/>
@@ -22425,8 +22425,8 @@ by exp-lbrs.ulp</description>
 <part name="GND45" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="P+25" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
 <part name="SV3" library="con-lstb" deviceset="MA05-1" device="SMALL_PAD" value="Rotary Encoder"/>
-<part name="GND46" library="supply1" deviceset="GND" device=""/>
 <part name="P+26" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="+5V" device=""/>
+<part name="GND46" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -22626,6 +22626,9 @@ Achtung:
 <wire x1="372.745" y1="217.17" x2="372.745" y2="224.79" width="0.1524" layer="150"/>
 <wire x1="372.745" y1="224.79" x2="375.92" y2="224.79" width="0.1524" layer="150"/>
 <text x="371.475" y="217.805" size="1.4224" layer="150" rot="R90">47uF 25V</text>
+<text x="295.91" y="90.17" size="1.778" layer="150">Mit 10K Bestücken
+damit der Stepper nicht
+während des Prog. heiß wird</text>
 </plain>
 <instances>
 <instance part="FRAME3" gate="G$1" x="0" y="0" smashed="yes">
@@ -23228,10 +23231,10 @@ Achtung:
 <attribute name="VALUE" x="207.01" y="254" size="1.778" layer="96" rot="MR180"/>
 <attribute name="NAME" x="207.518" y="250.19" size="1.778" layer="95" rot="MR270"/>
 </instance>
-<instance part="GND46" gate="1" x="213.36" y="238.76" smashed="yes" rot="MR0"/>
-<instance part="P+26" gate="1" x="205.74" y="243.84" smashed="yes" rot="MR0">
-<attribute name="VALUE" x="204.47" y="242.57" size="1.778" layer="96" rot="MR0"/>
+<instance part="P+26" gate="1" x="213.36" y="238.76" smashed="yes" rot="MR180">
+<attribute name="VALUE" x="210.82" y="238.76" size="1.778" layer="96" rot="MR180"/>
 </instance>
+<instance part="GND46" gate="1" x="210.82" y="238.76" smashed="yes" rot="MR0"/>
 </instances>
 <busses>
 </busses>
@@ -23493,7 +23496,7 @@ Achtung:
 <pinref part="C13" gate="G$1" pin="2"/>
 </segment>
 <segment>
-<pinref part="SV3" gate="G$1" pin="4"/>
+<pinref part="SV3" gate="G$1" pin="5"/>
 <pinref part="GND46" gate="1" pin="GND"/>
 </segment>
 </net>
@@ -23652,9 +23655,8 @@ Achtung:
 <pinref part="P+25" gate="1" pin="+5V"/>
 </segment>
 <segment>
+<pinref part="SV3" gate="G$1" pin="4"/>
 <pinref part="P+26" gate="1" pin="+5V"/>
-<pinref part="SV3" gate="G$1" pin="5"/>
-<wire x1="205.74" y1="241.3" x2="210.82" y2="241.3" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="DCC/SX" class="0">
