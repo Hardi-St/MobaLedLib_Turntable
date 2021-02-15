@@ -22444,7 +22444,7 @@ verwendet wird.</text>
 <wire x1="6.35" y1="6.35" x2="6.35" y2="78.74" width="0.1524" layer="97" style="shortdash"/>
 <wire x1="6.35" y1="78.74" x2="116.84" y2="78.74" width="0.1524" layer="97" style="shortdash"/>
 <wire x1="116.84" y1="78.74" x2="116.84" y2="6.35" width="0.1524" layer="97" style="shortdash"/>
-<text x="107.95" y="44.45" size="1.778" layer="97" rot="MR0">Achtung: der LM293N
+<text x="107.95" y="44.45" size="1.778" layer="97" rot="MR0">Achtung: der LM292N
 kann NICHT benutzt
 werden!</text>
 <wire x1="116.84" y1="180.34" x2="40.64" y2="180.34" width="0.1524" layer="97" style="shortdash"/>
