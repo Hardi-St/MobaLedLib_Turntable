@@ -84,7 +84,8 @@
             - Moving to contact before moving to a port. This caused a lot of changes.
             - Delayed start moving if DELAY_TURN_START_SOUND is given
  23.01.21:  - Added Menu Sound
-
+ 10.02.21:  - Added 1.3" OLED Display
+            - I2C speed set tor 400kHz
 
                          +-----+
             +------------| USB |------------+                     If the TMC2100 stepper driver is used the enable pin is not needed
@@ -117,6 +118,8 @@ Poarisation-| [ ]A1      /  A  \      D8[ ] |---------,   |
 
  ToDo:
  ~~~~~
+ - Flash Light als zweiten Licht Ausgang verwenden (Wunsch von Frank am 21.03.21
+ - Version bei der man sowohl das Poti wie auch den Drehregler disablen kann (Wunsch von Han (Mail:28.01.21))
  - Geschwindigkeiten und andere Parameter wie ANALOG_SPEED_DIVISOR, FAST_MOVE_MANUAL_STEP,
    SLOW_MOVE_MANUAL_STEP, ... sollen automatisch angepasst werden.
    Sie sollen sich an MOVE_SPEED1 orientieren und evtl. an der Anzahl der Schritte.
@@ -242,6 +245,15 @@ Poarisation-| [ ]A1      /  A  \      D8[ ] |---------,   |
     - https://github.com/janelia-arduino/TMC2130
 
  - TMC2208 RS232 Programmierbar
+   - Enable Pin nötig. Sollte immer auf 1 stehen ENABLE_ALWAYS_ON = 1
+     (Beim TMC2100 ist der automatische PowerDown Mode aktiv wenn der
+      not Enable Pin offen ist. Dazu muss der Jumper am Enable Pin geöffnet
+      werden oder der PullUp Wiederstand darf nicht bestückt sein.)
+   - PDN_UART Pin mus auf Masse gezogen werden. Das ist er momentan.
+     Evtl. weil der PDN_UART mit dem CLK Pin Verbunden ist
+   - Braucht eine höhre Spannung
+   - Ist Lauter
+     => Anderer Mode?
  - TMC2209 wie TMC2208 aber höherer Strom
 
 
@@ -482,16 +494,19 @@ Poarisation-| [ ]A1      /  A  \      D8[ ] |---------,   |
 #endif
 #ifndef OLED_TYP                                        // 0.87", 0.91" or 0.96" display (87/91/96)
 #define OLED_TYP                            91          // Tested with the following displays
-#endif                                                  // 0,87" I2C 128x32 OLED  SSD1316  (https://de.aliexpress.com/item/4000182887362.html)
-                                                        // 0.91" I2C 128x32 OLED  SSD1306  (https://de.aliexpress.com/item/4001028654247.html)
-                                                        // 0,96" I2C 128X64 OLED  SSD1306  (https://de.aliexpress.com/item/32643950109.html)
-                                                        // The 0.96" Display uses 2% less memory because there only one font is used
+#endif                                                  // 0.87" I2C 128x32  OLED  SSD1316  (https://de.aliexpress.com/item/4000182887362.html)
+                                                        // 0.91" I2C 128x32  OLED  SSD1306  (https://de.aliexpress.com/item/4001028654247.html)
+                                                        // 0.96" I2C 128X64  OLED  SSD1306  (https://de.aliexpress.com/item/32643950109.html)
+// Achtung: Loetjumper anpassen 2=VDD, 1=GND)           // 1.3"  I2C 128X64  OLED  SH1106   (https://de.aliexpress.com/item/32683739839.html)
+                                                        // The 0.96" and the 1.3" Displays uses 2% less memory because there only one font is used
                                                         // But it's only available if USE_u8x8 is active
 
+//#define I2C_BUSCLOCK                      100000      // Slow devices use 100kHz, Fast Display my run with 400kHz
+// The default values are set below
 
 #ifndef ROTATE_DISPLAY_180_DEG
-#define ROTATE_DISPLAY_180_DEG              0           // Rotate the display by 180° => Pins are at the right side
-#endif
+#define ROTATE_DISPLAY_180_DEG              0           // Rotate the display by 180° => Pins are at the right  side 0.87" / 0.91"
+#endif                                                  //                               Pins are on the bottom side 0.96" / 1.3"
 #ifndef USE_u8x8                                        // Saves 10% FLASH, but only supports text output at pixel pos x * 8
 #define USE_u8x8                            1           // But the text is redrawn if it's changed.
 #endif
@@ -529,7 +544,7 @@ Poarisation-| [ ]A1      /  A  \      D8[ ] |---------,   |
 #if USE_u8x8 == 1
    // Fonts for USE_u8x8:
    //   https://github.com/olikraus/u8g2/wiki/fntlist8x8
-   #if OLED_TYP == 96
+   #if OLED_TYP == 96 || OLED_TYP == 13 || OLED_TYP == 15
      #ifndef NORMAL_FONT
      #define NORMAL_FONT            u8x8_font_8x13B_1x2_r
      #endif
@@ -830,7 +845,7 @@ Poarisation-| [ ]A1      /  A  \      D8[ ] |---------,   |
 #include <FastLED.h>                  // FastPin
 
 #if USE_OLED
-  #include <U8g2lib.h>                // "U8g2" Library from Oliver Kraus
+  #include <U8g2lib.h>                // "U8g2" Library from Oliver Kraus13.10.21:
 #endif
 
 #define USE_AVDWEB_ANALOGREADFAST 1   // The standard Arduino analogRead() takes about 112us
@@ -1070,10 +1085,65 @@ int8_t CheckAndSetZero();
   #if USE_u8x8 == 1 // only text outputs, saves 10% FLASH and and doesn't need RAM to store the display page
      #if OLED_TYP == 87
        U8X8_SSD1316_128X32_HW_I2C u8x(U8X8_PIN_NONE);                     // 0.87" Display
+       #ifndef I2C_BUSCLOCK
+       #define I2C_BUSCLOCK 400000
+       #endif
      #elif OLED_TYP == 91
        U8X8_SSD1306_128X32_UNIVISION_HW_I2C u8x(U8X8_PIN_NONE, SCL, SDA); // 0.91" Display
+       #ifndef I2C_BUSCLOCK
+       #define I2C_BUSCLOCK 400000
+       #endif
      #elif OLED_TYP == 96
        U8X8_SSD1306_128X64_NONAME_HW_I2C u8x(U8X8_PIN_NONE, SCL, SDA);    // 0.96" Display with 128x64 pixel
+       #ifndef I2C_BUSCLOCK
+       #define I2C_BUSCLOCK 400000
+       #endif
+     #elif OLED_TYP == 13
+       U8X8_SH1106_128X64_NONAME_HW_I2C  u8x(U8X8_PIN_NONE, SCL, SDA);    // 1.3"  Display with 128x64 pixel
+       #ifndef I2C_BUSCLOCK
+       #define I2C_BUSCLOCK 400000
+       #endif
+     #elif OLED_TYP == 15 // 1.5" Display mit 128x128 pixel (https://de.aliexpress.com/item/4000098936409.html)
+       // Das 1.5" Display funktioniert nur mit dem Software I2C. Dieser läuft aber nur mit 20 kHz.
+       // Dadurch ist es unbrauchbar langsam. Ein BS Update dauert 4 Sekunden.
+       // Es lässt sich nicht mit dem Hardware I2C Bus in Betrieb nehmen. Auch dann nicht wenn man die
+       // I2C Taktrate auf 5 kHz reduziert. Die Reduzierung der Taktrate war recht aufwändig.
+       // Die Arduino Wire Bibliothek unterstützt minimal 100 kHz. Zu Testzweken habe ich in die
+       // u8glib in die Datei "U8x8lib.cpp" in Funktion "uint8_t u8x8_byte_arduino_hw_i2c()" die folgenden
+       // Zeilen Eingebaut:
+       //   #if F_CPU == 16000000L                 // 10.02.21:  Hardi
+       //     if (u8x8->bus_clock < 32000)
+       //          {
+       //          // http://www.gammon.com.au/i2c
+       //          // freq = clock / (16 + (2 * TWBR * prescaler))
+       //          // (16 + (2 * TWBR * prescaler)) = clock / freq
+       //          // TWBR = ((clock / freq) - 16) / ( 2 * prescaler)
+       //          if (u8x8->bus_clock > 8000)
+       //               {
+       //               TWBR = ((F_CPU / u8x8->bus_clock) - 16) / 8;
+       //               TWSR |= bit (TWPS0); // Set the prescaler to 4
+       //               }
+       //          else { // > 2000
+       //               TWBR = ((F_CPU / u8x8->bus_clock) - 16) / 32;
+       //               TWSR |= bit (TWPS1); // Set the prescaler to 16
+       //               }
+       //          }
+       //     else
+       //   #endif
+       // Damit lässt sich über den Befehl "u8x8.setBusClock(BUSCLOCK);" welcher vor "u8x8.begin();"
+       // aufgerufen werden muss die Taktrate bis hinunter zu 2kHz einstellen.
+       // Trotzdem reagiert das Display nicht ;-(
+       // Es sieht so aus, als wurde das Verlängern der I2C Signale durch den Slave nur dann Funktionieren
+       // Wenn die Software I2C Schnittstelle verwendet wird. Hier sind die Clock Signale sehr unsymetrisch.
+       // Daraus schließe ich, dass das Display die Signale nach unten zieht bis es bereit ist.
+       // Man sieht auf dem Ossi auch zwei Verschiedene Spammungen. 3.3V und 5V.
+       //
+       U8X8_SSD1327_MIDAS_128X128_SW_I2C u8x(/* clock=*/ SCL, /* data=*/ SDA, /* reset=*/ U8X8_PIN_NONE);
+       #if MENU_MAXLINES == 4
+         #undef MENU_MAXLINES
+         #define MENU_MAXLINES 8
+       #endif
+
      #else
         #error "OLED_TYP not supported yet ;-("
      #endif
@@ -1234,6 +1304,8 @@ int8_t Abs(int8_t x)
         u8x.setCursor(0, u8x.ty+U8G_FONT_HEIGHT);
         } while (1);
   }
+#else
+  void Clear_Rest_of_Disp() {}
 #endif // NO_FLICKER_u8x8
 
 //------------------------------------------------------------------
@@ -2379,6 +2451,9 @@ void setup()
   #endif
 
   #if USE_OLED
+    #ifdef I2C_BUSCLOCK
+      u8x.setBusClock(I2C_BUSCLOCK);
+    #endif
     u8x.begin();
     u8x.setFont(NORMAL_FONT);
     #if USE_u8x8 == 1
@@ -3535,6 +3610,7 @@ void Rotate_Continuosly_DCC(int8_t Dir)
 // ce      Clear EEProm and restart
 // +       Next Port
 // -       Prior Port
+// 7       Move to Port 7
 // r       Reverse turn Table
 // o       Sound On/Off
 // Todo:
@@ -3550,6 +3626,7 @@ void Proc_Cmd(const char *Cmd)
               long move = atol(Cmd+1);
               if (move != 0)
                  {
+                 ee.Flags.Is_Stopped = 0;                                                                     // 22.02.21:
                  Step1.setSpeedSteps(MovSpeed);
                  Step1.doSteps(move);
                  WaitUntilStopped(true);
